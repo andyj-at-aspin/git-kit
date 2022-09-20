@@ -7,6 +7,7 @@
  */
 
 import ShellKit
+import Foundation
 
 /// a Git wrapper class
 public final class Git: Shell {
@@ -218,6 +219,7 @@ public final class Git: Shell {
      
         - Parameters:
             - alias: The git command alias to be executed
+            - timeout: A timeout (in seconds) to apply to the command. If the timeout is triggered, the command is terminated.
 
         - Throws:
             `ShellError.outputData` if the command execution succeeded but the output is empty,
@@ -227,8 +229,8 @@ public final class Git: Shell {
         - Returns: The output string of the command without trailing newlines
      */
     @discardableResult
-    public func run(_ alias: Alias) throws -> String {
-        try self.run(self.rawCommand(alias))
+    public func run(_ alias: Alias, timeout: TimeInterval? = nil) throws -> String {
+        try self.run(self.rawCommand(alias), timeout: timeout)
     }
 
     /**
@@ -236,11 +238,12 @@ public final class Git: Shell {
      
         - Parameters:
             - alias: The git command alias to be executed
+            - timeout: A timeout (in seconds) to apply to the command. If the timeout is triggered, the command is terminated.
             - completion: The completion block with the output and error
 
         The command will be executed on a concurrent dispatch queue.
      */
-    public func run(_ alias: Alias, completion: @escaping ((String?, Swift.Error?) -> Void)) {
-        self.run(self.rawCommand(alias), completion: completion)
+    public func run(_ alias: Alias, timeout: TimeInterval? = nil, completion: @escaping ((String?, Swift.Error?) -> Void)) {
+        self.run(self.rawCommand(alias), timeout: timeout, completion: completion)
     }
 }

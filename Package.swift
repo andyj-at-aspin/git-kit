@@ -3,11 +3,12 @@ import PackageDescription
 
 let package = Package(
     name: "git-kit",
+    platforms: [.macOS(.v10_15)],
     products: [
         .library(name: "GitKit", targets: ["GitKit"]),
     ],
     dependencies: [
-        .package(url: "git@github.com:andyj-at-aspin/shell-kit.git", branch: "aspin-custom"),
+        .package(url: "git@github.com:andyj-at-aspin/shell-kit.git", .exactItem("2.0.0")),
     ],
     targets: [
         .target(name: "GitKit", dependencies: [
