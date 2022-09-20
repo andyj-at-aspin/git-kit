@@ -1,4 +1,4 @@
-// swift-tools-version:5.2
+// swift-tools-version:5.6
 import PackageDescription
 
 let package = Package(
@@ -7,7 +7,7 @@ let package = Package(
         .library(name: "GitKit", targets: ["GitKit"]),
     ],
     dependencies: [
-        .package(url: "git@github.com:andyj-at-aspin/shell-kit.git", from: "1.0.0"),
+        .package(url: "git@github.com:andyj-at-aspin/shell-kit.git", branch: "aspin-custom"),
     ],
     targets: [
         .target(name: "GitKit", dependencies: [
