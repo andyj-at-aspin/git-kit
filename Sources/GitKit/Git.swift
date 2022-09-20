@@ -190,14 +190,17 @@ public final class Git: Shell {
     
     // MARK: - public api
 
-    /// work directory, if peresent a directory change will occur before running any Git commands
+    /// work directory, if present a directory change will occur before running any Git commands
     ///
     /// NOTE: if the git init command is called with a non-existing path, directories
     /// presented in the path string will be created recursively
     public var path: String?
     
-    // prints git commands constructed from the alias before execution
+    /// prints git commands constructed from the alias before execution
     public var verbose = false
+    
+    /// Default timeout to apply to all commands if one is are not specified
+    public var defaultTimeout: TimeInterval?
     
     /**
         Initializes a new Git object
@@ -219,7 +222,7 @@ public final class Git: Shell {
      
         - Parameters:
             - alias: The git command alias to be executed
-            - timeout: A timeout (in seconds) to apply to the command. If the timeout is triggered, the command is terminated.
+            - timeout: A timeout (in seconds) to apply to the command. If the timeout is triggered, the command is terminated. If not specified the defaultTimeout will be used.
 
         - Throws:
             `ShellError.outputData` if the command execution succeeded but the output is empty,
@@ -230,7 +233,7 @@ public final class Git: Shell {
      */
     @discardableResult
     public func run(_ alias: Alias, timeout: TimeInterval? = nil) throws -> String {
-        try self.run(self.rawCommand(alias), timeout: timeout)
+        try self.run(self.rawCommand(alias), timeout: timeout ?? self.defaultTimeout)
     }
 
     /**
@@ -238,12 +241,12 @@ public final class Git: Shell {
      
         - Parameters:
             - alias: The git command alias to be executed
-            - timeout: A timeout (in seconds) to apply to the command. If the timeout is triggered, the command is terminated.
+            - timeout: A timeout (in seconds) to apply to the command. If the timeout is triggered, the command is terminated. If not specified the defaultTimeout will be used.
             - completion: The completion block with the output and error
 
         The command will be executed on a concurrent dispatch queue.
      */
     public func run(_ alias: Alias, timeout: TimeInterval? = nil, completion: @escaping ((String?, Swift.Error?) -> Void)) {
-        self.run(self.rawCommand(alias), timeout: timeout, completion: completion)
+        self.run(self.rawCommand(alias), timeout: timeout ?? self.defaultTimeout, completion: completion)
     }
 }
