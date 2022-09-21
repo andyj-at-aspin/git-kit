@@ -8,7 +8,7 @@ let package = Package(
         .library(name: "GitKit", targets: ["GitKit"]),
     ],
     dependencies: [
-        .package(url: "git@github.com:andyj-at-aspin/shell-kit.git", exact: "2.0.0"),
+        .package(url: "git@github.com:andyj-at-aspin/shell-kit.git", exact: "2.0.1"),
     ],
     targets: [
         .target(name: "GitKit", dependencies: [
